@@ -8,11 +8,20 @@ itens.forEach(element => {
 form.addEventListener("submit", function (event) {
     event.preventDefault();
     let nome = event.target.elements["nome"].value;
+    nomeFormatado = (nome[0].toUpperCase() + nome.substring(1));
     let quantidade = event.target.elements["quantidade"].value;
+
+    let existe = itens.find((element) => element.nome === nomeFormatado);//retorna o elemento
 
     let itemAtual = {
         nome: nome,
         quantidade: quantidade
+    }
+
+    if (existe) {
+        itemAtual.id = existe.id
+    } else {
+        itemAtual.id = itens.length
     }
 
     criarElemento(itemAtual);
@@ -30,11 +39,17 @@ function criarElemento(item) {
 
     let strong = document.createElement("strong");
     strong.textContent = item.quantidade;
+    strong.dataset.id = item.quantidade
     li.appendChild(strong);
-    li.innerHTML += item.nome;
+    nomeFormatado = (item.nome[0].toUpperCase() + item.nome.substring(1));
+    li.innerHTML += nomeFormatado;
 
     lista.appendChild(li);
 
     /* console.log(localStorage.key(0)) */ // retorna itens
 
+}
+
+function atualizaElemento(item) {
+    let elemento = document
 }
