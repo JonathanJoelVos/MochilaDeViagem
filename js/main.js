@@ -48,6 +48,7 @@ function criarElemento(item) {
     li.appendChild(strong);
     li.innerHTML += item.nome;
 
+
     li.appendChild(botaoDeleta(item.id));
 
     lista.appendChild(li);
@@ -66,13 +67,17 @@ function botaoDeleta(id) {
 
     botao.addEventListener("click", function (event) {
         /* event.target.parentNode.remove()  ou...*/
-        this.parentNode.remove();
+        removeElemento(this.parentNode, id)
 
-        itens.splice(itens.findIndex((element) => {
-            element.id === id;
-        }), 1)
-        localStorage.setItem("itens", JSON.stringify(itens))
     })
 
+    console.log(botao)
     return botao;
+}
+
+function removeElemento(tag, id) {
+    tag.remove();
+
+    itens.splice(itens.findIndex((element) => element.id === id), 1);
+    localStorage.setItem("itens", JSON.stringify(itens))
 }
