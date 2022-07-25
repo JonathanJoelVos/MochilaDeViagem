@@ -8,10 +8,9 @@ itens.forEach(element => {
 form.addEventListener("submit", function (event) {
     event.preventDefault();
     let nome = event.target.elements["nome"].value;
-    nomeFormatado = (nome[0].toUpperCase() + nome.substring(1));
     let quantidade = event.target.elements["quantidade"].value;
 
-    let existe = itens.find((element) => element.nome === nomeFormatado);//retorna o elemento
+    let existe = itens.find((element) => element.nome === nome);//retorna o elemento
 
     let itemAtual = {
         nome: nome,
@@ -20,13 +19,14 @@ form.addEventListener("submit", function (event) {
 
     if (existe) {
         itemAtual.id = existe.id
+        atualizaElemento(itemAtual)
     } else {
         itemAtual.id = itens.length
+        criarElemento(itemAtual);
+
+        itens.push(itemAtual);
     }
 
-    criarElemento(itemAtual);
-
-    itens.push(itemAtual);
     localStorage.setItem("itens", JSON.stringify(itens))
 
     form.reset();
@@ -39,10 +39,9 @@ function criarElemento(item) {
 
     let strong = document.createElement("strong");
     strong.textContent = item.quantidade;
-    strong.dataset.id = item.quantidade
+    strong.dataset.id = item.id
     li.appendChild(strong);
-    nomeFormatado = (item.nome[0].toUpperCase() + item.nome.substring(1));
-    li.innerHTML += nomeFormatado;
+    li.innerHTML += item.nome;
 
     lista.appendChild(li);
 
@@ -51,5 +50,5 @@ function criarElemento(item) {
 }
 
 function atualizaElemento(item) {
-    let elemento = document
+    document.querySelector("[data-id='" + item.id + "']").innerHTML = item.quantidade
 }
