@@ -5,6 +5,7 @@ let itens = JSON.parse(localStorage.getItem("itens")) || [];
 itens.forEach(element => {
     criarElemento(element);
 });
+
 form.addEventListener("submit", function (event) {
     event.preventDefault();
     let nome = event.target.elements["nome"].value;
@@ -50,5 +51,4 @@ function criarElemento(item) {
 }
 
 function atualizaElemento(item) {
-    document.querySelector("[data-id='" + item.id + "']").innerHTML = item.quantidade
 }
