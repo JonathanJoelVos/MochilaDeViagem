@@ -19,11 +19,14 @@ form.addEventListener("submit", function (event) {
     }
 
     if (existe) {
-        itemAtual.id = existe.id
-        atualizaElemento(itemAtual)
-        itens[existe.id] = itemAtual
+        itemAtual.id = existe.id;
+        atualizaElemento(itemAtual);
+        itens.findIndex((elemento) => {
+            elemento.id === existe.id
+        }, 1) = itemAtual;
     } else {
-        itemAtual.id = itens.length
+        itemAtual.id = itens[itens.length - 1] ? (itens[itens.length - 1].id + 1) : 0;
+        console.log(itemAtual.id)
         criarElemento(itemAtual);
 
         itens.push(itemAtual);
@@ -45,6 +48,8 @@ function criarElemento(item) {
     li.appendChild(strong);
     li.innerHTML += item.nome;
 
+    li.appendChild(botaoDeleta(item.id));
+
     lista.appendChild(li);
 
     /* console.log(localStorage.key(0)) */ // retorna itens
@@ -53,4 +58,21 @@ function criarElemento(item) {
 
 function atualizaElemento(item) {
     document.querySelector("[data-id = '" + item.id + "']").innerHTML = item.quantidade;
+}
+
+function botaoDeleta(id) {
+    const botao = document.createElement("button");
+    botao.innerText = "X";
+
+    botao.addEventListener("click", function (event) {
+        /* event.target.parentNode.remove()  ou...*/
+        this.parentNode.remove();
+
+        itens.splice(itens.findIndex((element) => {
+            element.id === id;
+        }), 1)
+        localStorage.setItem("itens", JSON.stringify(itens))
+    })
+
+    return botao;
 }
